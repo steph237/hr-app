@@ -3,8 +3,6 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
-
-
 app.use(cors());
 app.use(express.json());
 
@@ -16,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 app.post("/create", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const name = req.body.name;
   const age = req.body.age;
   const country = req.body.country;
@@ -36,8 +34,15 @@ app.post("/create", (req, res) => {
   );
 });
 
-
-app.get('/employee')
+app.get("/employees", (req, res) => {
+  db.query("SELECT * FROM employee", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 app.listen(3001, () => {
   console.log("server running on port 3001");
